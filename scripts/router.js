@@ -5,7 +5,7 @@ export const router = {};
 /**
  * Changes the "page" (state) that your SPA app is currently set to
  */
-router.setState = function() {
+router.setState = function(page) {
   /**
    * - There are three states that your SPA app will have
    *    1. The home page
@@ -35,4 +35,69 @@ router.setState = function() {
    *    1. You may add as many helper functions in this file as you like
    *    2. You may modify the parameters of setState() as much as you like
    */
+
+  //Home page
+  //var path;
+  
+  //console.log(path);
+
+  switch (page) {
+   
+    case 'setting':
+      //update the URL
+      history.pushState(window.state, '', '#settings');
+      //change css element
+      console.log(document.querySelector('body'));
+      document.querySelector('body').className = 'settings';
+      document.querySelector('body > header > h1').innerHTML = 'Settings';
+      break;
+
+    case 'header':
+      history.pushState(window.state, '', '');
+      document.querySelector('body').className = '';
+      document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
+      break;
+      
+    case '': 
+      //update the URL
+      history.pushState(window.state, '', '#home');
+      //change css element
+      document.querySelector('body').classList.remove('settings');
+      document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
+      break;
+  }
+
+
+
 }
+
+//console.log(window.navigationTrigger);
+
+window.onpopstate = function(event) {
+  //alert("location: " + document.location + ", state: " );
+  history.back();
+  var path = location.hash;
+  console.log(path);
+ 
+  router.setState(path);
+ // reorient();
+}
+
+function reorient() {
+  const positionLastShown = Number(
+    sessionStorage.getItem('positionLastShown')
+  );
+  let position = history.state;
+  if (position === null) {
+    position = positionLastShown + 1;
+    history.replaceState(position, '');
+  }
+
+  sessionStorage.setItem('positionLastShown', String(position));
+
+  const direction = Math.sign(position - positionLastShown);
+  console.log('Travel direction is ' + direction);
+}
+
+//addEventListener('pageshow', reorient);
+//addEventListener('popstate', reorient);
