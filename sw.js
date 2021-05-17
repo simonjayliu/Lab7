@@ -11,7 +11,7 @@
 //Register a service worker 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      navigator.serviceWorker.register('./sw.js').then(function(registration) {
         // Registration was successful
         console.log('ServiceWorker registration successful with scope: ', registration.scope);
       }, function(err) {
@@ -31,7 +31,8 @@ if ('serviceWorker' in navigator) {
       './scripts/script.js',
       './scripts/router.js',
       './components/entry-page.js',
-      './components/journal-entry.js'
+      './components/journal-entry.js',
+      'https://cse110lab6.herokuapp.com/entries'
 
     ];
     
