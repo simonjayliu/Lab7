@@ -5,7 +5,7 @@ const setState = router.setState;
 
 const setting = document.querySelector('img[alt="settings"]');
 const header = document.querySelector('h1');
-
+const entry = document.querySelector('body');
 // Make sure you register your service worker here too
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         let newPost = document.createElement('journal-entry');
         newPost.entry = entry;
+        newPost.addEventListener('click', () => {
+          router.setState('entry');
+        })
         document.querySelector('main').appendChild(newPost); 
       });
     });

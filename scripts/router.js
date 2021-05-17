@@ -40,6 +40,7 @@ router.setState = function(page) {
   //var path;
   
   //console.log(path);
+  const body = document.querySelector("body");
 
   switch (page) {
    
@@ -65,6 +66,19 @@ router.setState = function(page) {
       document.querySelector('body').classList.remove('settings');
       document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
       break;
+
+    case 'entry':
+      history.pushState(window.state, '', '#entry');
+      document.querySelector('body').removeChild(document.querySelector('entry-page'));
+
+      document.querySelector('body').className = 'single-entry';
+      let current = document.createElement('entry-page');
+    
+      document.querySelector('body').appendChild(current);
+     
+      //change css element
+      //document.querySelector('body > header > h1').innerHTML = 'Entry';
+
   }
 
 
