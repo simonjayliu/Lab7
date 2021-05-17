@@ -46,7 +46,10 @@ router.setState = function(index) {
    
     case 'settings':
       //update the URL
-      history.pushState(window.state, '', '#settings');
+      if (history.state !== index) {
+        history.pushState(index, '', '#settings');
+      }
+      
       //change css element
       console.log(document.querySelector('body'));
       document.querySelector('body').className = 'settings';
@@ -54,28 +57,25 @@ router.setState = function(index) {
       break;
 
     case 'home' || '':
-      history.pushState(window.state, '', location.origin);
+      if (history.state !== index) {
+        history.pushState(index, '', location.origin);
+      }
       document.querySelector('body').className = '';
       document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
-      break;
-      
-    // case '': 
-    //   //update the URL
-    //   history.pushState(window.state, '', '#home');
-    //   //change css element
-    //   document.querySelector('body').classList.remove('settings');
-    //   document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
-    //   break;
+      break; 
 
     case 'entry':
       console.log(index.number);
-      history.pushState(window.state, '', '#entry'+ index.number);
+      if (history.state !== index) {
+        history.pushState(index, '', '#entry'+ index.number);
+      }
       document.querySelector('body').removeChild(document.querySelector('entry-page'));
 
       document.querySelector('body').className = 'single-entry';
       let current = document.createElement('entry-page');
       current.entry = index.entry;
       document.querySelector('body').appendChild(current);
+      document.querySelector('body > header > h1').innerHTML = 'Entry ' + index.number;
   }
 }
 
@@ -84,10 +84,10 @@ router.setState = function(index) {
 window.onpopstate = function(event) {
   //alert("location: " + document.location + ", state: "+ event );
   //history.back();
-  var path = document.location.hash;
+  //var path = document.location.hash;
   //console.log(path);
- 
-  router.setState({page: path});
+  console.log(history.state);
+  router.setState(history.state);
 }
 
 // function reorient() {
