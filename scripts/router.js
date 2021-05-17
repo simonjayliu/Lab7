@@ -53,19 +53,19 @@ router.setState = function(index) {
       document.querySelector('body > header > h1').innerHTML = 'Settings';
       break;
 
-    case 'home':
+    case 'home' || '':
       history.pushState(window.state, '', location.origin);
       document.querySelector('body').className = '';
       document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
       break;
       
-    case '': 
-      //update the URL
-      history.pushState(window.state, '', '#home');
-      //change css element
-      document.querySelector('body').classList.remove('settings');
-      document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
-      break;
+    // case '': 
+    //   //update the URL
+    //   history.pushState(window.state, '', '#home');
+    //   //change css element
+    //   document.querySelector('body').classList.remove('settings');
+    //   document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
+    //   break;
 
     case 'entry':
       console.log(index.number);
@@ -81,15 +81,14 @@ router.setState = function(index) {
 
 //console.log(window.navigationTrigger);
 
-// window.onpopstate = function(event) {
-//   //alert("location: " + document.location + ", state: " );
-//   history.back();
-//   var path = location.hash;
-//   console.log(path);
+window.onpopstate = function(event) {
+  //alert("location: " + document.location + ", state: "+ event );
+  //history.back();
+  var path = document.location.hash;
+  //console.log(path);
  
-//   router.setState(path);
-//  // reorient();
-// }
+  router.setState({page: path});
+}
 
 // function reorient() {
 //   const positionLastShown = Number(

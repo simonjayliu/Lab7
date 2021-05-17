@@ -4,6 +4,11 @@
 //   - One for installation
 //   - One for activation ( check out MDN's clients.claim() for this step )
 //   - One for fetch requests
+
+//credits: https://developers.google.com/web/fundamentals/primers/service-workers
+//         https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
+
+//Register a service worker 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('/sw.js').then(function(registration) {
@@ -16,6 +21,7 @@ if ('serviceWorker' in navigator) {
     });
   }
 
+//Install a service worker
   self.addEventListener('install', function(event) {
     // Perform install steps
     var CACHE_NAME = 'my-site-cache-v1';
@@ -41,6 +47,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 
+  //Cache and return requests
   self.addEventListener('fetch', function(event) {
     event.respondWith(
       caches.match(event.request)
@@ -55,6 +62,7 @@ if ('serviceWorker' in navigator) {
     );
   });
 
+  //Event listener to update the service worker 
   self.addEventListener('activate', event => {
       event.waitUntil(clients.claim());
   })
