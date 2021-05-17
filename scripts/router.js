@@ -5,7 +5,7 @@ export const router = {};
 /**
  * Changes the "page" (state) that your SPA app is currently set to
  */
-router.setState = function(page) {
+router.setState = function(index) {
   /**
    * - There are three states that your SPA app will have
    *    1. The home page
@@ -42,9 +42,9 @@ router.setState = function(page) {
   //console.log(path);
   const body = document.querySelector("body");
 
-  switch (page) {
+  switch (index.page) {
    
-    case 'setting':
+    case 'settings':
       //update the URL
       history.pushState(window.state, '', '#settings');
       //change css element
@@ -53,8 +53,8 @@ router.setState = function(page) {
       document.querySelector('body > header > h1').innerHTML = 'Settings';
       break;
 
-    case 'header':
-      history.pushState(window.state, '', '');
+    case 'home':
+      history.pushState(window.state, '', location.origin);
       document.querySelector('body').className = '';
       document.querySelector('body > header > h1').innerHTML = 'Journal Entries';
       break;
@@ -68,50 +68,44 @@ router.setState = function(page) {
       break;
 
     case 'entry':
-      history.pushState(window.state, '', '#entry');
+      console.log(index.number);
+      history.pushState(window.state, '', '#entry'+ index.number);
       document.querySelector('body').removeChild(document.querySelector('entry-page'));
 
       document.querySelector('body').className = 'single-entry';
       let current = document.createElement('entry-page');
-    
+      current.entry = index.entry;
       document.querySelector('body').appendChild(current);
-     
-      //change css element
-      //document.querySelector('body > header > h1').innerHTML = 'Entry';
-
   }
-
-
-
 }
 
 //console.log(window.navigationTrigger);
 
-window.onpopstate = function(event) {
-  //alert("location: " + document.location + ", state: " );
-  history.back();
-  var path = location.hash;
-  console.log(path);
+// window.onpopstate = function(event) {
+//   //alert("location: " + document.location + ", state: " );
+//   history.back();
+//   var path = location.hash;
+//   console.log(path);
  
-  router.setState(path);
- // reorient();
-}
+//   router.setState(path);
+//  // reorient();
+// }
 
-function reorient() {
-  const positionLastShown = Number(
-    sessionStorage.getItem('positionLastShown')
-  );
-  let position = history.state;
-  if (position === null) {
-    position = positionLastShown + 1;
-    history.replaceState(position, '');
-  }
+// function reorient() {
+//   const positionLastShown = Number(
+//     sessionStorage.getItem('positionLastShown')
+//   );
+//   let position = history.state;
+//   if (position === null) {
+//     position = positionLastShown + 1;
+//     history.replaceState(position, '');
+//   }
 
-  sessionStorage.setItem('positionLastShown', String(position));
+//   sessionStorage.setItem('positionLastShown', String(position));
 
-  const direction = Math.sign(position - positionLastShown);
-  console.log('Travel direction is ' + direction);
-}
+//   const direction = Math.sign(position - positionLastShown);
+//   console.log('Travel direction is ' + direction);
+// }
 
 //addEventListener('pageshow', reorient);
 //addEventListener('popstate', reorient);

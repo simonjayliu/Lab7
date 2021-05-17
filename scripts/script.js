@@ -9,27 +9,31 @@ const entry = document.querySelector('body');
 // Make sure you register your service worker here too
 
 document.addEventListener('DOMContentLoaded', () => {
+  let count = 1;
   fetch('https://cse110lab6.herokuapp.com/entries')
     .then(response => response.json())
     .then(entries => {
       entries.forEach(entry => {
         let newPost = document.createElement('journal-entry');
         newPost.entry = entry;
+        newPost.number = count;
         newPost.addEventListener('click', () => {
-          router.setState('entry');
+          router.setState({page:'entry', 'entry': entry, number: newPost.number});
         })
+      
         document.querySelector('main').appendChild(newPost); 
+        count++;
       });
     });
 });
 
 setting.addEventListener('click', (event) => {
   event.preventDefault();
-  router.setState('setting');
+  router.setState({page: 'settings'});
 })
 
 header.addEventListener('click', (event) => {
   event.preventDefault();
-  router.setState('header');
+  router.setState({page: 'home'});
 })
 
