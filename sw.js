@@ -54,3 +54,7 @@ if ('serviceWorker' in navigator) {
       )
     );
   });
+
+  self.addEventListener('activate', event => {
+      event.waitUntil(clients.claim());
+  })
